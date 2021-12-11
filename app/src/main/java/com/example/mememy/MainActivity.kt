@@ -54,18 +54,25 @@ class MainActivity : AppCompatActivity() {
         val inputProgressBar = findViewById<ProgressBar>(R.id.progressBar)
         inputProgressBar.visibility= View.VISIBLE
 
-        // Instantiate the RequestQueue.
+        // Instantiate the RequestQueue.(just ike Bank Queue)
         val queue = Volley.newRequestQueue(this)
-        val url = "https://meme-api.herokuapp.com/gimme"
+        val urls = "https://meme-api.herokuapp.com/gimme"
 
-         // Request a json response from the provided URL.
-        val jsonObjectRequest = JsonObjectRequest(Request.Method.GET, url, null,
+         // Request a json response from the provided URL. ( val jsonObjectRequest is the object)
+        // Now we will insert Insaan in the bank line here our insaan is jsonObjectRequest
+        // Request.Method.Get says What Type of request you want you want to get the insaan or set the insaan
+        // urls specifies the place3 from here you can access the inssan
+        // null because we do not want to send any parameter as it is a simple request
+        // -> is a lambda function in this case if everything is sucessful this  method  is called or the error method gets called and both of them are present in form of parameters inside the jsonObjectRequestConstructor
+        val jsonObjectRequest = JsonObjectRequest(Request.Method.GET, urls, null,
             { response ->
                 currentImageUrl = response.getString("url")
 
                 val inputImage: ImageView = findViewById(R.id.memeImageview)
 
-                Glide.with(this).load(currentImageUrl).placeholder(android.R.drawable.progress_indeterminate_horizontal).error(android.R.drawable.stat_notify_error).listener(object: RequestListener<Drawable>
+
+                //Here It Is just the function definition it gets executed when the jsonObject is added in the queue
+                Glide.with(this).load(currentImageUrl).placeholder(android.R.drawable.progress_indeterminate_horizontal).error(android.R.drawable.stat_notify_error).listener(object: RequestListener<Drawable> //you are dirctly making object of the interface RequestListner<Drawable>
                 {
                     override fun onLoadFailed(
                         e: GlideException?,
@@ -88,7 +95,7 @@ class MainActivity : AppCompatActivity() {
                         return false
                     }
                 }
-                ).into(inputImage);
+                ).into(inputImage)
 
                 Log.d("JsonResponnse", "To Check What happens")
             },
@@ -97,6 +104,11 @@ class MainActivity : AppCompatActivity() {
                 Toast.makeText(this, "Try Connecting to internet", Toast.LENGTH_SHORT).show()
             }
         )
+
+
+
+
+
 
        // Add the request to the RequestQueue.
         queue.add(jsonObjectRequest)
